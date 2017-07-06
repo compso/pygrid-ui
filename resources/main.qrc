@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="res">
+    <file>png/running.png</file>
+    <file>png/waiting.png</file>
+    <file>png/onhold.png</file>
+    <file>png/error.png</file>
+    <file>png/warning.png</file>
+  </qresource>
+</RCC>
