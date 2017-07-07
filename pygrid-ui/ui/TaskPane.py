@@ -33,9 +33,16 @@ class TaskPane(QtWidgets.QFrame):
 
             if os.path.isdir(log_file):
 
-                log_file_name = '{}.{}.o{}'.format(self.job_info['name'],
-                                                   self.job_info['jobid'],
-                                                   self.task.get('tasks', 1))
+                if self.task.get('tasks'):
+
+                    log_file_name = '{}.{}.o{}'.format(self.job_info['name'],
+                                                       self.job_info['jobid'],
+                                                       self.task['tasks'])
+                else:
+
+                    log_file_name = '{}.o{}'.format(self.job_info['name'],
+                                                    self.job_info['jobid'])
+
 
                 log_file = os.path.join(log_file, log_file_name)
 
@@ -44,4 +51,6 @@ class TaskPane(QtWidgets.QFrame):
             if os.path.isfile(log_file):
 
                 log_dialog = LogDialog(self, log_file)
+                log_dialog.setWindowTitle('Task log ({}.{})'.format(self.job_info['jobid'],
+                                                                    self.task.get('tasks', 1)))
                 log_dialog.show()

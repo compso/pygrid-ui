@@ -88,7 +88,7 @@ class JobInfoDialog(QtWidgets.QDialog):
                 status = pending_tasks[0].get('flags')
             elif s['min'] == s['max']:
                 # set status to the same as the host job
-                _t.task['tasks'] = str(i)
+                # _t.task['tasks'] = str(i)
                 if len(pending_tasks):
                     status = pending_tasks[0].get('flags')
                 else:
