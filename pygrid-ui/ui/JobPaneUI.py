@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'JobPane.ui'
 #
-# Created: Thu Jul  6 17:44:02 2017
+# Created: Fri Jul  7 18:16:46 2017
 #      by: pyside2-uic  running on PySide2 2.0.0~alpha0
 #
 # WARNING! All changes made in this file will be lost!
@@ -40,6 +40,15 @@ class Ui_JobPane(object):
         self.id_label.setSizePolicy(sizePolicy)
         self.id_label.setObjectName("id_label")
         self.horizontalLayout_2.addWidget(self.id_label)
+        self.spool_label = QtWidgets.QLabel(self.mainFrame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.spool_label.sizePolicy().hasHeightForWidth())
+        self.spool_label.setSizePolicy(sizePolicy)
+        self.spool_label.setScaledContents(False)
+        self.spool_label.setObjectName("spool_label")
+        self.horizontalLayout_2.addWidget(self.spool_label)
         self.owner_label = QtWidgets.QLabel(self.mainFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -93,6 +102,7 @@ class Ui_JobPane(object):
     def retranslateUi(self, JobPane):
         JobPane.setWindowTitle(QtWidgets.QApplication.translate("JobPane", "JobPane", None, -1))
         self.id_label.setText(QtWidgets.QApplication.translate("JobPane", "jobid", None, -1))
+        self.spool_label.setText(QtWidgets.QApplication.translate("JobPane", "spool_time", None, -1))
         self.owner_label.setText(QtWidgets.QApplication.translate("JobPane", "owner", None, -1))
         self.name_label.setText(QtWidgets.QApplication.translate("JobPane", "Job Name", None, -1))
         self.queue_label.setText(QtWidgets.QApplication.translate("JobPane", "queuename", None, -1))

@@ -100,5 +100,25 @@
   <include location="main.qrc"/>
   <include location="../../../../../sw/wrappers/main.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>log_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>TaskPane</receiver>
+   <slot>_view_logs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>418</x>
+     <y>18</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>481</x>
+     <y>4</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>_view_logs()</slot>
+ </slots>
 </ui>

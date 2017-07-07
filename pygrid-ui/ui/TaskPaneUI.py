@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'TaskPane.ui'
 #
-# Created: Thu Jul  6 17:44:02 2017
+# Created: Fri Jul  7 18:16:46 2017
 #      by: pyside2-uic  running on PySide2 2.0.0~alpha0
 #
 # WARNING! All changes made in this file will be lost!
@@ -57,6 +57,7 @@ class Ui_TaskPane(object):
         self.horizontalLayout.addWidget(self.log_btn)
 
         self.retranslateUi(TaskPane)
+        QtCore.QObject.connect(self.log_btn, QtCore.SIGNAL("clicked()"), TaskPane._view_logs)
         QtCore.QMetaObject.connectSlotsByName(TaskPane)
 
     def retranslateUi(self, TaskPane):

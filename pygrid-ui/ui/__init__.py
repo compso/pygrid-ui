@@ -4,6 +4,7 @@ from JobInfoDialog import JobInfoDialog
 from MainWindowUI import Ui_MainWindow
 from JobPaneUI import Ui_JobPane
 from ElidedLabel import ElidedLabel
+from FiltersDialog import FiltersDialog
 
 from PySide2 import QtWidgets
 
