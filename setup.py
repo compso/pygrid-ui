@@ -24,8 +24,6 @@ with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
 
 # Get Version Info
 
-sys.executable = '/bin/custom_python'
-
 #
 setup(
     name='pygrid_ui',
@@ -87,7 +85,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'pyqmon.py=pygrid_ui:main',
+            'pyqmon=pygrid_ui:main',
         ],
         #'gui_scripts': [
         #    'makeout=makeout.view.makeout_view:main',

@@ -1,7 +1,7 @@
 
 from PySide2 import QtWidgets, QtGui
 from JobInfoDialogUI import Ui_JobInfoDialog
-from TaskPane import TaskPane
+from .TaskPane import TaskPane
 import re
 from ..api import qstat
 

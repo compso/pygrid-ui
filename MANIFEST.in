@@ -1,3 +1,4 @@
 include README.rst
 include DESCRIPTION.rst
-recursive-include pygrid *.py
+recursive-include pygrid_ui *.py
+recursive-include pygrid_ui *.qss

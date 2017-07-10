@@ -1,8 +1,9 @@
 
 from PySide2 import QtWidgets, QtCore, QtGui
-from ui import (Ui_MainWindow, Ui_JobPane, JobInfoDialog, FiltersDialog,
-                Style, clearWidget)
+from .ui import (Ui_MainWindow, Ui_JobPane, JobInfoDialog, FiltersDialog,
+                 Style, clearWidget)
 import api
+import sys
 
 STATUS_ICONS = {'r': ':/res/png/running.png',
                 'qw': ':/res/png/waiting.png',
@@ -52,7 +53,7 @@ class QStatWindow(QtWidgets.QMainWindow):
     def _setup_gui(self):
 
         for btn in ['suspend_btn', 'resume_btn', 'reschedule_btn',
-                    'priority_btn', 'qalter_btn']:
+                    'priority_btn', 'qalter_btn', 'hold_btn']:
 
             btn_w = getattr(self.ui, btn)
             btn_w.hide()
@@ -121,7 +122,7 @@ class QStatWindow(QtWidgets.QMainWindow):
 
         jobid = str(job.get('jobid', '0'))
 
-        if 'tasks' in job and job_status == 'r':
+        if 'tasks' in job and job['tasks'].isdigit():
             jobid = '{}.{}'.format(jobid, job['tasks'])
 
         this_pane.id_label.setText(jobid)
@@ -266,6 +267,7 @@ class QStatWindow(QtWidgets.QMainWindow):
 
         if confirm == QtWidgets.QMessageBox.Ok:
             api.qdel.delete_jobs(ids)
+            self.list_jobs()
 
     def clear_error(self):
 
@@ -278,6 +280,7 @@ class QStatWindow(QtWidgets.QMainWindow):
             ids.append(str(n))
 
         api.qmod.clear_error(ids)
+        self.list_jobs()
 
     def __confirm_message(self, text, info_text, default=QtWidgets.QMessageBox.Ok):
 
@@ -292,3 +295,15 @@ class QStatWindow(QtWidgets.QMainWindow):
 
         self.ui.refresh_btn.clicked.connect(self.list_jobs)
         self.ui.filters_btn.clicked.connect(self.run_filter_dialog)
+
+
+def main(*args, **kwargs):
+
+    app = QtWidgets.QApplication(sys.argv)
+    window = QStatWindow()
+    window.show()
+    return app.exec_()
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))

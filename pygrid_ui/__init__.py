@@ -1,3 +1,2 @@
-from main import main
-
 from version import *
+from qstatwindow import main
