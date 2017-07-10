@@ -35,7 +35,7 @@ class TaskPane(QtWidgets.QFrame):
 
                 if self.task.get('tasks'):
 
-                    log_file_name = '{}.{}.o{}'.format(self.job_info['name'],
+                    log_file_name = '{}.o{}.{}'.format(self.job_info['name'],
                                                        self.job_info['jobid'],
                                                        self.task['tasks'])
                 else:
