@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.47 r22583"
+   inkscape:export-filename="/home/ashleyr/Dev/sgtk_apps/tk-multi-bundlepublish/resources/error.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="18.075417"
+     inkscape:cx="-8.3285767"
+     inkscape:cy="13.573953"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1030"
+     inkscape:window-x="1076"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1036.3622)">
+    <path
+       style="fill:#ec2016;stroke:#000000;stroke-width:0.56728047000000004;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+       d="m 0.47456972,1051.1262 c 0.37846111,0.6555 14.70375828,0.6624 15.08108728,0 0.37733,-0.6625 -6.6746005,-13.428 -7.9628814,-13.428 -1.2882808,0 -7.49666711,12.7724 -7.11820588,13.428 z"
+       id="path2816"
+       sodipodi:nodetypes="czzz" />
+    <g
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       id="text3590"
+       transform="matrix(1.2707457,0,0,0.92987101,-2.0120823,72.959925)">
+      <path
+         d="m 7.8280467,1047.2617 -0.5762305,0 -0.4801921,-6.1464 0,-1.5366 1.5366147,0 0,1.5366 -0.4801921,6.1464 0,0 m -0.096038,3.3614 c -0.3201306,0 -0.5954405,-0.083 -0.8259304,-0.2497 -0.2176889,-0.1665 -0.3265323,-0.3714 -0.3265306,-0.6147 -1.7e-6,-0.3457 0.1024391,-0.6402 0.3073229,-0.8835 0.2048797,-0.2433 0.4545794,-0.365 0.7490997,-0.365 0.2945147,0 0.5442143,0.1025 0.7490996,0.3074 0.2048782,0.2048 0.3073191,0.4545 0.3073229,0.7491 -3.8e-6,0.2945 -0.096042,0.5442 -0.2881152,0.7491 -0.1792751,0.2048 -0.4033645,0.3073 -0.6722689,0.3073 l 0,0"
+         style="font-size:16px;font-variant:normal;font-stretch:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ecffff;fill-opacity:1;font-family:Lohit Gujarati;-inkscape-font-specification:Lohit Gujarati"
+         id="path3595" />
+    </g>
+  </g>
+</svg>

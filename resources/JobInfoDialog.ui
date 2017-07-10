@@ -19,7 +19,7 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QGroupBox" name="groupBox">
+     <widget class="QGroupBox" name="jobInfo">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
         <horstretch>0</horstretch>
@@ -49,11 +49,11 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QScrollArea" name="scrollArea">
+        <widget class="QScrollArea" name="jobInfo_scroll">
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents">
+         <widget class="QWidget" name="jobInfo_w">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -62,12 +62,40 @@
             <height>162</height>
            </rect>
           </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QTableWidget" name="details_table">
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <attribute name="horizontalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="horizontalHeaderStretchLastSection">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <column>
+              <property name="text">
+               <string>Key</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Value</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_2">
+     <widget class="QGroupBox" name="taskInfo">
       <property name="title">
        <string>Task Info</string>
       </property>
@@ -85,11 +113,11 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QScrollArea" name="scrollArea_2">
+        <widget class="QScrollArea" name="taskInfo_scroll">
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents_2">
+         <widget class="QWidget" name="taskInfo_w">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -98,6 +126,7 @@
             <height>161</height>
            </rect>
           </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2"/>
          </widget>
         </widget>
        </item>

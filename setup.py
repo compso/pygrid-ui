@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """A setuptools based setup module.
 See:
 https://packaging.python.org/en/latest/distributing.html
@@ -10,7 +12,7 @@ from setuptools import setup
 from codecs import open
 from os import path
 import sys
-from pygrid import version
+from pygrid_ui import version
 
 __VERSION__ = version
 
@@ -24,7 +26,7 @@ with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
 
 #
 setup(
-    name='pygrid-ui',
+    name='pygrid_ui',
     version=__VERSION__,
     description='GridEngine monitor GUI',
     long_description=long_description,
@@ -53,8 +55,8 @@ setup(
     author_email='ashleyr.retallack@gmail.com',
     license='MIT',
     keywords='gridengine python submitter',
-    packages=["pygrid-ui"],
-    install_requires=["pygrid", "pyside"],
+    packages=["pygrid_ui"],
+    install_requires=["pygrid", "pyside2"],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
@@ -81,16 +83,19 @@ setup(
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
     # pip to create the appropriate form of executable for the target platform.
-    # entry_points={
-    #     'console_scripts': [
-    #         'workspace=lipsync.workspace.workspace:main',
-    #     ],
-    # },
-    # options={
-    #     'build_scripts': {
-    #         'executable': '/sw/wrappers/python2.7',
-    #     },
-    # },
+    entry_points={
+        'console_scripts': [
+            'pyqmon=pygrid_ui:main',
+        ],
+        #'gui_scripts': [
+        #    'makeout=makeout.view.makeout_view:main',
+        #]
+    },
+    options={
+        'build_scripts': {
+            'executable': '/bin/custom_python',
+        },
+    },
     include_package_data=True,
     zip_safe=False
 )

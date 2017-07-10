@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>QStat Gui</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -31,6 +31,12 @@
            <enum>Qt::Vertical</enum>
           </property>
           <widget class="QScrollArea" name="running_scroll">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="widgetResizable">
             <bool>true</bool>
            </property>
@@ -39,27 +45,48 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>762</width>
-              <height>312</height>
+              <width>659</width>
+              <height>223</height>
              </rect>
             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3"/>
            </widget>
           </widget>
           <widget class="QScrollArea" name="pending_scroll">
            <property name="widgetResizable">
             <bool>true</bool>
            </property>
-           <widget class="QWidget" name="pendding_w">
+           <widget class="QWidget" name="pending_w">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>762</width>
-              <height>178</height>
+              <width>659</width>
+              <height>222</height>
              </rect>
             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4"/>
            </widget>
           </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QPushButton" name="refresh_btn">
+             <property name="text">
+              <string>Refresh</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
@@ -70,16 +97,155 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTreeWidget" name="treeWidget">
+         <widget class="QTreeWidget" name="hosts_tree">
+          <property name="rootIsDecorated">
+           <bool>true</bool>
+          </property>
           <column>
            <property name="text">
             <string>Hostname</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Arch</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Procs</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Mem Total</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Mem Used</string>
            </property>
           </column>
          </widget>
         </item>
        </layout>
       </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="frame_2">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QPushButton" name="delete_btn">
+         <property name="text">
+          <string>Delete</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="hold_btn">
+         <property name="text">
+          <string>Hold</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="suspend_btn">
+         <property name="text">
+          <string>Suspend</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="resume_btn">
+         <property name="text">
+          <string>Resume</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="reschedule_btn">
+         <property name="text">
+          <string>Reschedule</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="clear_error_btn">
+         <property name="text">
+          <string>Clear error</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="priority_btn">
+         <property name="text">
+          <string>Set Priority</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="qalter_btn">
+         <property name="text">
+          <string>QAlter</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="filters_btn">
+         <property name="text">
+          <string>Filter</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -150,6 +316,62 @@
    </property>
   </action>
  </widget>
- <resources/>
- <connections/>
+ <resources>
+  <include location="main.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>refresh_list(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>28</x>
+     <y>40</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>563</x>
+     <y>24</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>delete_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>delete_jobs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>746</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>798</x>
+     <y>533</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clear_error_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clear_error()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>738</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>797</x>
+     <y>315</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>refresh_list(int)</slot>
+  <slot>delete_jobs()</slot>
+  <slot>clear_error()</slot>
+ </slots>
 </ui>
