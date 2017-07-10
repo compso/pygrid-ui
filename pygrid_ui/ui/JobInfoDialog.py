@@ -3,7 +3,7 @@ from PySide2 import QtWidgets, QtGui
 from JobInfoDialogUI import Ui_JobInfoDialog
 from TaskPane import TaskPane
 import re
-from api import qstat
+from ..api import qstat
 
 STATUS_ICONS = {'r': ':/res/png/running.png',
                 'Rr': ':/res/png/running.png',
@@ -37,6 +37,7 @@ class JobInfoDialog(QtWidgets.QDialog):
         self.get_tasks()
 
         self._populate_tasks()
+        self._populate_info()
 
     def get_tasks(self):
 
@@ -108,3 +109,23 @@ class JobInfoDialog(QtWidgets.QDialog):
             QtWidgets.QSpacerItem(1, 1,
                                   QtWidgets.QSizePolicy.Expanding,
                                   QtWidgets.QSizePolicy.Expanding))
+
+    def _populate_info(self):
+
+        r = 0
+        for k, v in self.job_info.items():
+
+            if k in ['successors', 'predecessors']:
+                v = ','.join([str(p['id']) for p in v])
+            elif k in ['out_log_paths', 'shell']:
+                v = ','.join([p['path'] for p in v])
+            elif k == 'pe_range':
+                v = '{}-{}:{}'.format(v['min'], v['max'], v['step'])
+            elif k in ['requested_queues']:
+                v = ','.join([q['name'] for q in v])
+
+            key_item = QtWidgets.QTableWidgetItem("{}".format(k))
+            value_item = QtWidgets.QTableWidgetItem("{}".format(v))
+            self.ui.details_table.insertRow(r)
+            self.ui.details_table.setItem(r, 0, key_item)
+            self.ui.details_table.setItem(r, 1, value_item)

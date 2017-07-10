@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'LogDialog.ui'
 #
-# Created: Fri Jul  7 18:16:46 2017
+# Created: Mon Jul 10 15:29:03 2017
 #      by: pyside2-uic  running on PySide2 2.0.0~alpha0
 #
 # WARNING! All changes made in this file will be lost!

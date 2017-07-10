@@ -32,18 +32,39 @@ class QStatWindow(QtWidgets.QMainWindow):
         self.style = style
         self._panes = []
         self._selection = []
-        self._filters = {}
+        self._filters = {'user': '*'}
 
         self.applyStyle()
-        self.mainwindow = Ui_MainWindow()
-        self.mainwindow.setupUi(self)
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
 
-        self._pending_pane = self.mainwindow.pending_w
-        self._running_pane = self.mainwindow.running_w
+        self._setup_gui()
+
+        self._pending_pane = self.ui.pending_w
+        self._running_pane = self.ui.running_w
+
+        # hide WIP buttone
 
         self._make_connections()
 
         self.list_jobs()
+
+    def _setup_gui(self):
+
+        for btn in ['suspend_btn', 'resume_btn', 'reschedule_btn',
+                    'priority_btn', 'qalter_btn']:
+
+            btn_w = getattr(self.ui, btn)
+            btn_w.hide()
+
+        self.ui.menubar.hide()
+
+    def refresh_list(self, tabid):
+
+        if tabid == 0:
+            self.list_jobs()
+        elif tabid == 1:
+            self.list_hosts()
 
     def applyStyle(self):
         self.style.apply(self)
@@ -62,9 +83,28 @@ class QStatWindow(QtWidgets.QMainWindow):
 
     jobs = property(**jobs())
 
+    def hosts():
+        doc = "get and set the hosts list, refresh the view if set"
+
+        def fget(self):
+            return self.__hosts
+
+        def fset(self, value):
+            self.__hosts = value
+            self.populate_hosts_list()
+
+        return locals()
+
+    hosts = property(**hosts())
+
     def list_jobs(self):
 
+        # set cursor to working
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+
         self.jobs = api.qstat.get_jobs(self._filters.items())
+        
+        QtWidgets.QApplication.restoreOverrideCursor()
 
     def add_job_pane(self, job):
 
@@ -87,6 +127,10 @@ class QStatWindow(QtWidgets.QMainWindow):
         this_pane.id_label.setText(jobid)
         this_pane.owner_label.setText(job.get('owner', 'none'))
         this_pane.name_label.setText(job.get('name', 'none'))
+        if job.get('submission_time'):
+            this_pane.spool_label.setText(job.get('submission_time'))
+        elif job.get('start_time'):
+            this_pane.spool_label.setText(job.get('start_time'))
 
         this_pane.info_btn.clicked.connect(lambda j=job: self.show_job_info(j))
         this_pane.mainFrame.selected.connect(lambda w=this_pane: self.add_selection(w))
@@ -138,6 +182,7 @@ class QStatWindow(QtWidgets.QMainWindow):
             self._selection.pop(idx)
 
     def populate_jobs_list(self):
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
 
         clearWidget(self._pending_pane)
         clearWidget(self._running_pane)
@@ -145,13 +190,33 @@ class QStatWindow(QtWidgets.QMainWindow):
         self._panes = []
         self._selection = []
 
-        for j in self.jobs:
+        for j in sorted(self.jobs, key=lambda k: k['jobid']):
             self.add_job_pane(j)
 
         # add spacer to the bottom of both the panes
 
         self.__add_spacer(self._pending_pane)
         self.__add_spacer(self._running_pane)
+        
+        QtWidgets.QApplication.restoreOverrideCursor()
+
+    def list_hosts(self):
+
+        self.hosts = api.qhost.get_hosts(True)
+
+    def populate_hosts_list(self):
+
+        self.ui.hosts_tree.clear()
+
+        for h in sorted(self.hosts, key=lambda k: k['hostname']):
+            this_hosts_item = QtWidgets.QTreeWidgetItem()
+            this_hosts_item.setText(0, h.get('hostname'))
+            if len(h.get('jobs', [])):
+                for j in h['jobs']:
+                    j_item = QtWidgets.QTreeWidgetItem(this_hosts_item)
+                    j_item.setText(0, j.get('job_name'))
+
+            self.ui.hosts_tree.addTopLevelItem(this_hosts_item)
 
     def __add_spacer(self, widget):
 
@@ -190,9 +255,9 @@ class QStatWindow(QtWidgets.QMainWindow):
         ids = []
 
         for j in self._selection:
-            n = j.get('jobid')
-            if j['tasks'].isdigit():
-                n = '{}.{}'.format(n, j['tasks'])
+            n = j.id_label.text()
+            # if j['tasks'].isdigit():
+            #     n = '{}.{}'.format(n, j['tasks'])
             ids.append(n)
 
         confirm = self.__confirm_message(
@@ -201,6 +266,18 @@ class QStatWindow(QtWidgets.QMainWindow):
 
         if confirm == QtWidgets.QMessageBox.Ok:
             api.qdel.delete_jobs(ids)
+
+    def clear_error(self):
+
+        ids = []
+
+        for j in self._selection:
+            n = j.id_label.text()
+            # if j['tasks'].isdigit():
+            #     n = '{}.{}'.format(n, j['tasks'])
+            ids.append(str(n))
+
+        api.qmod.clear_error(ids)
 
     def __confirm_message(self, text, info_text, default=QtWidgets.QMessageBox.Ok):
 
@@ -213,5 +290,5 @@ class QStatWindow(QtWidgets.QMainWindow):
 
     def _make_connections(self):
 
-        self.mainwindow.refresh_btn.clicked.connect(self.list_jobs)
-        self.mainwindow.filters_btn.clicked.connect(self.run_filter_dialog)
+        self.ui.refresh_btn.clicked.connect(self.list_jobs)
+        self.ui.filters_btn.clicked.connect(self.run_filter_dialog)

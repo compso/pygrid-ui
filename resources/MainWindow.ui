@@ -46,7 +46,7 @@
               <x>0</x>
               <y>0</y>
               <width>659</width>
-              <height>283</height>
+              <height>223</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -62,7 +62,7 @@
               <x>0</x>
               <y>0</y>
               <width>659</width>
-              <height>162</height>
+              <height>222</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4"/>
@@ -97,10 +97,33 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTreeWidget" name="treeWidget">
+         <widget class="QTreeWidget" name="hosts_tree">
+          <property name="rootIsDecorated">
+           <bool>true</bool>
+          </property>
           <column>
            <property name="text">
             <string>Hostname</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Arch</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Procs</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Mem Total</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Mem Used</string>
            </property>
           </column>
          </widget>
@@ -133,28 +156,28 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="hold_btn">
          <property name="text">
           <string>Hold</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="suspend_btn">
          <property name="text">
           <string>Suspend</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="resume_btn">
          <property name="text">
           <string>Resume</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="reschedule_btn">
          <property name="text">
           <string>Reschedule</string>
          </property>
@@ -168,7 +191,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="clear_error_btn">
          <property name="text">
           <string>Clear error</string>
          </property>
@@ -182,14 +205,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="priority_btn">
          <property name="text">
           <string>Set Priority</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_7">
+        <widget class="QPushButton" name="qalter_btn">
          <property name="text">
           <string>QAlter</string>
          </property>
@@ -296,5 +319,59 @@
  <resources>
   <include location="main.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>refresh_list(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>28</x>
+     <y>40</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>563</x>
+     <y>24</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>delete_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>delete_jobs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>746</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>798</x>
+     <y>533</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clear_error_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clear_error()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>738</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>797</x>
+     <y>315</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>refresh_list(int)</slot>
+  <slot>delete_jobs()</slot>
+  <slot>clear_error()</slot>
+ </slots>
 </ui>

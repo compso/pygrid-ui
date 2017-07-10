@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'JobInfoDialog.ui'
 #
-# Created: Fri Jul  7 18:16:46 2017
+# Created: Mon Jul 10 15:29:03 2017
 #      by: pyside2-uic  running on PySide2 2.0.0~alpha0
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,9 +37,19 @@ class Ui_JobInfoDialog(object):
         self.jobInfo_w.setObjectName("jobInfo_w")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.jobInfo_w)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.details = QtWidgets.QTableView(self.jobInfo_w)
-        self.details.setObjectName("details")
-        self.verticalLayout_3.addWidget(self.details)
+        self.details_table = QtWidgets.QTableWidget(self.jobInfo_w)
+        self.details_table.setAlternatingRowColors(True)
+        self.details_table.setObjectName("details_table")
+        self.details_table.setColumnCount(2)
+        self.details_table.setRowCount(0)
+        item = QtWidgets.QTableWidgetItem()
+        self.details_table.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.details_table.setHorizontalHeaderItem(1, item)
+        self.details_table.horizontalHeader().setVisible(False)
+        self.details_table.horizontalHeader().setStretchLastSection(True)
+        self.details_table.verticalHeader().setVisible(False)
+        self.verticalLayout_3.addWidget(self.details_table)
         self.jobInfo_scroll.setWidget(self.jobInfo_w)
         self.horizontalLayout.addWidget(self.jobInfo_scroll)
         self.taskInfo = QtWidgets.QGroupBox(self.splitter)
@@ -65,5 +75,7 @@ class Ui_JobInfoDialog(object):
     def retranslateUi(self, JobInfoDialog):
         JobInfoDialog.setWindowTitle(QtWidgets.QApplication.translate("JobInfoDialog", "JobInfo (jobid)", None, -1))
         self.jobInfo.setTitle(QtWidgets.QApplication.translate("JobInfoDialog", "Job Info", None, -1))
+        self.details_table.horizontalHeaderItem(0).setText(QtWidgets.QApplication.translate("JobInfoDialog", "Key", None, -1))
+        self.details_table.horizontalHeaderItem(1).setText(QtWidgets.QApplication.translate("JobInfoDialog", "Value", None, -1))
         self.taskInfo.setTitle(QtWidgets.QApplication.translate("JobInfoDialog", "Task Info", None, -1))
 

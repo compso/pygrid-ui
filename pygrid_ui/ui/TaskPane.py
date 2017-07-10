@@ -43,10 +43,7 @@ class TaskPane(QtWidgets.QFrame):
                     log_file_name = '{}.o{}'.format(self.job_info['name'],
                                                     self.job_info['jobid'])
 
-
                 log_file = os.path.join(log_file, log_file_name)
-
-            print log_file
 
             if os.path.isfile(log_file):
 
