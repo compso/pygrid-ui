@@ -33,7 +33,7 @@ class QStatWindow(QtWidgets.QMainWindow):
         self.style = style
         self._panes = []
         self._selection = []
-        self._filters = {'user': '*'}
+        self._filters = {}
 
         self.applyStyle()
         self.ui = Ui_MainWindow()
