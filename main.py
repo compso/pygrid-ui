@@ -1,7 +1,11 @@
 
 import sys
+import os
+sys.path.insert(0, os.path.abspath('../pygrid'))
+
 from PySide2 import QtWidgets, QtCore
 from pygrid_ui.qstatwindow import QStatWindow
+
 
 
 def main(*args, **kwargs):

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'MainWindow.ui'
 #
-# Created: Mon Jul 10 15:29:03 2017
+# Created: Wed Jul 12 16:15:51 2017
 #      by: pyside2-uic  running on PySide2 2.0.0~alpha0
 #
 # WARNING! All changes made in this file will be lost!
@@ -45,6 +45,12 @@ class Ui_MainWindow(object):
         self.pending_scroll.setObjectName("pending_scroll")
         self.pending_w = QtWidgets.QWidget()
         self.pending_w.setGeometry(QtCore.QRect(0, 0, 659, 222))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pending_w.sizePolicy().hasHeightForWidth())
+        self.pending_w.setSizePolicy(sizePolicy)
+        self.pending_w.setStyleSheet("")
         self.pending_w.setObjectName("pending_w")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.pending_w)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
@@ -59,6 +65,14 @@ class Ui_MainWindow(object):
         self.refresh_btn = QtWidgets.QPushButton(self.frame)
         self.refresh_btn.setObjectName("refresh_btn")
         self.horizontalLayout_3.addWidget(self.refresh_btn)
+        self.auto_refresh_cb = QtWidgets.QCheckBox(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.auto_refresh_cb.sizePolicy().hasHeightForWidth())
+        self.auto_refresh_cb.setSizePolicy(sizePolicy)
+        self.auto_refresh_cb.setObjectName("auto_refresh_cb")
+        self.horizontalLayout_3.addWidget(self.auto_refresh_cb)
         self.verticalLayout.addWidget(self.frame)
         self.tabWidget.addTab(self.jobs_tab, "")
         self.hosts_tab = QtWidgets.QWidget()
@@ -168,11 +182,15 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.tabWidget, QtCore.SIGNAL("currentChanged(int)"), MainWindow.refresh_list)
         QtCore.QObject.connect(self.delete_btn, QtCore.SIGNAL("clicked()"), MainWindow.delete_jobs)
         QtCore.QObject.connect(self.clear_error_btn, QtCore.SIGNAL("clicked()"), MainWindow.clear_error)
+        QtCore.QObject.connect(self.auto_refresh_cb, QtCore.SIGNAL("toggled(bool)"), MainWindow.set_auto_refresh)
+        QtCore.QObject.connect(self.priority_btn, QtCore.SIGNAL("clicked()"), MainWindow.set_priority)
+        QtCore.QObject.connect(self.reschedule_btn, QtCore.SIGNAL("clicked()"), MainWindow.reschedule_jobs)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "QStat Gui", None, -1))
         self.refresh_btn.setText(QtWidgets.QApplication.translate("MainWindow", "Refresh", None, -1))
+        self.auto_refresh_cb.setText(QtWidgets.QApplication.translate("MainWindow", "Auto", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.jobs_tab), QtWidgets.QApplication.translate("MainWindow", "Jobs", None, -1))
         self.hosts_tree.headerItem().setText(0, QtWidgets.QApplication.translate("MainWindow", "Hostname", None, -1))
         self.hosts_tree.headerItem().setText(1, QtWidgets.QApplication.translate("MainWindow", "Arch", None, -1))

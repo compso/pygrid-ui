@@ -1,23 +1,12 @@
 
 from PySide2 import QtWidgets, QtCore, QtGui
-from .ui import (Ui_MainWindow, Ui_JobPane, JobInfoDialog, FiltersDialog,
-                 Style, clearWidget)
 import api
+from .ui import (Ui_MainWindow, JobPane, JobInfoDialog, FiltersDialog,
+                 Style, clearWidget)
+
 import sys
+from copy import copy, deepcopy
 
-STATUS_ICONS = {'r': ':/res/png/running.png',
-                'qw': ':/res/png/waiting.png',
-                'hqw': ':/res/png/onhold.png',
-                'Eqw': ':/res/png/error.png'}
-
-
-def get_status_icon(status):
-    icon = ":/res/png/waiting.png"
-
-    if status in STATUS_ICONS:
-        icon = STATUS_ICONS[status]
-
-    return icon
 
 
 class QStatWindow(QtWidgets.QMainWindow):
@@ -33,7 +22,10 @@ class QStatWindow(QtWidgets.QMainWindow):
         self.style = style
         self._panes = []
         self._selection = []
+        # self._filters = {'user': '*'}
         self._filters = {}
+
+        self._timer = QtCore.QTimer()
 
         self.applyStyle()
         self.ui = Ui_MainWindow()
@@ -52,8 +44,8 @@ class QStatWindow(QtWidgets.QMainWindow):
 
     def _setup_gui(self):
 
-        for btn in ['suspend_btn', 'resume_btn', 'reschedule_btn',
-                    'priority_btn', 'qalter_btn', 'hold_btn']:
+        for btn in ['suspend_btn', 'resume_btn',
+                    'qalter_btn', 'hold_btn']:
 
             btn_w = getattr(self.ui, btn)
             btn_w.hide()
@@ -109,42 +101,21 @@ class QStatWindow(QtWidgets.QMainWindow):
 
     def add_job_pane(self, job):
 
-        job_status = job.get('flags', 'qw')
+        job_widget = JobPane(self, job=job)
 
-        job_widget = QtWidgets.QWidget()
-        job_widget.setSizePolicy(QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum,
-                                                       QtWidgets.QSizePolicy.Maximum))
-        this_pane = Ui_JobPane()
-        this_pane.setupUi(job_widget)
-        status_icon = get_status_icon(job_status)
+        # job_widget.ui.info_btn.clicked.connect(lambda j=job: self.show_job_info(j))
+        job_widget.selected.connect(lambda w=job_widget: self.add_selection(w))
+        job_widget.deselected.connect(lambda w=job_widget: self.remove_selection(w))
 
-        this_pane.status_label.setPixmap(QtGui.QPixmap(status_icon))
-
-        jobid = str(job.get('jobid', '0'))
-
-        if 'tasks' in job and job['tasks'].isdigit():
-            jobid = '{}.{}'.format(jobid, job['tasks'])
-
-        this_pane.id_label.setText(jobid)
-        this_pane.owner_label.setText(job.get('owner', 'none'))
-        this_pane.name_label.setText(job.get('name', 'none'))
-        if job.get('submission_time'):
-            this_pane.spool_label.setText(job.get('submission_time'))
-        elif job.get('start_time'):
-            this_pane.spool_label.setText(job.get('start_time'))
-
-        this_pane.info_btn.clicked.connect(lambda j=job: self.show_job_info(j))
-        this_pane.mainFrame.selected.connect(lambda w=this_pane: self.add_selection(w))
-        this_pane.mainFrame.deselected.connect(lambda w=this_pane: self.remove_selection(w))
-
-        if job_status == 'r':
-            this_pane.queue_label.setText(job.get('running_queue', 'u.q'))
-            self._running_pane.layout().insertWidget(0, job_widget)
+        if job_widget.isrunning():
+            self._running_pane.layout().addWidget(job_widget)
         else:
-            this_pane.queue_label.setText(job.get('requested_queue', 'r.q'))
-            self._pending_pane.layout().insertWidget(0, job_widget)
+            self._pending_pane.layout().addWidget(job_widget)
 
-        self._panes.append(this_pane)
+        if self.job_list_contains(job, self._selection):
+            job_widget.setSelected(True, False)
+
+        self._panes.append(job_widget)
 
     def add_selection(self, pane):
 
@@ -154,33 +125,44 @@ class QStatWindow(QtWidgets.QMainWindow):
             # get the panes between this one that next selected one
             start = False
             for p in self._panes:
-                if not start and p == pane and not p.mainFrame.isSelected():
+                if not start and p == pane and not p.isSelected():
                     start = True
-                    p.mainFrame.setSelected(True)
-                elif start and not p.mainFrame.isSelected():
-                    p.mainFrame.setSelected(True)
-                    self._selection.append(p)
-                elif start and p.mainFrame.isSelected():
+                    p.setSelected(True)
+                elif start and not p.isSelected():
+                    p.setSelected(True)
+                    self._selection.append(copy(p.job))
+                elif start and p.isSelected():
                     break
                 elif start and p == pane:
                     break
-                elif not start and p.mainFrame.isSelected():
+                elif not start and p.isSelected():
                     start = True
 
         elif modifiers == QtCore.Qt.ControlModifier:
             pass
         else:
-            for p in self._selection:
-                p.mainFrame.setSelected(False)
+            for j in self._selection:
+                p = self.get_job_pane(j)
+                if p:
+                    p.setSelected(False)
 
-        if pane not in self._selection:
-            self._selection.append(pane)
+        if pane.job not in self._selection:
+            self._selection.append(copy(pane.job))
+
+    def get_job_pane(self, job):
+        for p in self._panes:
+            if p.job == job:
+                return p
+        return None
 
     def remove_selection(self, pane):
 
-        if pane in self._selection:
-            idx = self._selection.index(pane)
+        if pane.job in self._selection:
+            idx = self._selection.index(pane.job)
             self._selection.pop(idx)
+
+    def job_list_contains(self, job, joblist):
+        return job['jobid'] in [j['jobid'] for j in joblist]
 
     def populate_jobs_list(self):
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
@@ -189,7 +171,9 @@ class QStatWindow(QtWidgets.QMainWindow):
         clearWidget(self._running_pane)
 
         self._panes = []
-        self._selection = []
+        # refresh the selection list, if any jobs are removed
+        self._selection = [j for j in self._selection if self.job_list_contains(j, self.jobs)]
+        print [j['jobid'] for j in self._selection]
 
         for j in sorted(self.jobs, key=lambda k: k['jobid']):
             self.add_job_pane(j)
@@ -235,15 +219,14 @@ class QStatWindow(QtWidgets.QMainWindow):
         job_dialog = JobInfoDialog(self, job_info)
         job_dialog.setWindowTitle('Job Info ({})'.format(job['jobid']))
 
-        job_dialog.show()
+        job_dialog.exec_()
 
     def run_filter_dialog(self):
 
         self.filter_dialog = FiltersDialog(self, self._filters)
+        self.filter_dialog.accepted.connect(self.set_filters)
 
         self.filter_dialog.show()
-
-        self.filter_dialog.accepted.connect(self.set_filters)
 
     def set_filters(self):
 
@@ -282,6 +265,39 @@ class QStatWindow(QtWidgets.QMainWindow):
         api.qmod.clear_error(ids)
         self.list_jobs()
 
+    def reschedule_jobs(self):
+
+        ids = []
+
+        for j in self._selection:
+            n = j.get('jobid')
+            # if j['tasks'].isdigit():
+            #     n = '{}.{}'.format(n, j['tasks'])
+            ids.append(str(n))
+
+        api.qmod.rescedule_jobs(ids)
+        self.list_jobs()
+
+    def set_auto_refresh(self, refresh=False):
+        if refresh:
+            self._timer.setInterval(5000)
+            self._timer.start()
+        else:
+            self._timer.stop()
+
+    def set_priority(self):
+
+        cur_priority = 0
+        num_selected = len(self._selection)
+        if num_selected == 1:
+            cur_priority = self._selection[0].get('priority', 0)
+        priority, result = QtWidgets.QInputDialog.getInt(self,
+                                                         "Set User Priority",
+                                                         "Priority",
+                                                         cur_priority, -1024, 1024)
+        if result and num_selected:
+            api.qalter.set_priority(priority, [j['jobid'] for j in self._selection])
+
     def __confirm_message(self, text, info_text, default=QtWidgets.QMessageBox.Ok):
 
         msgBox = QtWidgets.QMessageBox()
@@ -295,6 +311,8 @@ class QStatWindow(QtWidgets.QMainWindow):
 
         self.ui.refresh_btn.clicked.connect(self.list_jobs)
         self.ui.filters_btn.clicked.connect(self.run_filter_dialog)
+
+        self._timer.timeout.connect(self.list_jobs)
 
 
 def main(*args, **kwargs):

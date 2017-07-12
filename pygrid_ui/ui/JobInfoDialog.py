@@ -3,7 +3,9 @@ from PySide2 import QtWidgets, QtGui
 from JobInfoDialogUI import Ui_JobInfoDialog
 from .TaskPane import TaskPane
 import re
+from copy import deepcopy
 from ..api import qstat
+
 
 STATUS_ICONS = {'r': ':/res/png/running.png',
                 'Rr': ':/res/png/running.png',
@@ -28,7 +30,7 @@ class JobInfoDialog(QtWidgets.QDialog):
     def __init__(self, parent=None, job_info={}):
         super(JobInfoDialog, self).__init__(parent)
 
-        self.job_info = job_info
+        self.job_info = deepcopy(job_info)
         self.tasks = []
 
         self.ui = Ui_JobInfoDialog()

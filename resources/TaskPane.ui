@@ -98,7 +98,7 @@
  </widget>
  <resources>
   <include location="main.qrc"/>
-  <include location="../../../../../sw/wrappers/main.qrc"/>
+  <include location="main.qrc"/>
  </resources>
  <connections>
   <connection>

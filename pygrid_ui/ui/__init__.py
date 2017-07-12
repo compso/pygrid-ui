@@ -2,7 +2,7 @@ from Color import Color
 from Style import Style
 from JobInfoDialog import JobInfoDialog
 from MainWindowUI import Ui_MainWindow
-from JobPaneUI import Ui_JobPane
+from JobPane import JobPane
 from ElidedLabel import ElidedLabel
 from FiltersDialog import FiltersDialog
 
