@@ -8,7 +8,6 @@ import sys
 from copy import copy, deepcopy
 
 
-
 class QStatWindow(QtWidgets.QMainWindow):
 
     refresh_jobs = QtCore.Signal(bool)
@@ -90,6 +89,9 @@ class QStatWindow(QtWidgets.QMainWindow):
 
     hosts = property(**hosts())
 
+    def auto_refresh_active(self):
+        return self.ui.auto_refresh_cb.isChecked()
+
     def list_jobs(self):
 
         # set cursor to working
@@ -124,13 +126,14 @@ class QStatWindow(QtWidgets.QMainWindow):
         if modifiers == QtCore.Qt.ShiftModifier:
             # get the panes between this one that next selected one
             start = False
-            for p in self._panes:
+            layout_widget = pane.parentWidget().layout()
+            for i in range(0, layout_widget.count()):
+                p = layout_widget.itemAt(i).widget()
                 if not start and p == pane and not p.isSelected():
                     start = True
                     p.setSelected(True)
                 elif start and not p.isSelected():
                     p.setSelected(True)
-                    self._selection.append(copy(p.job))
                 elif start and p.isSelected():
                     break
                 elif start and p == pane:
@@ -140,14 +143,18 @@ class QStatWindow(QtWidgets.QMainWindow):
 
         elif modifiers == QtCore.Qt.ControlModifier:
             pass
-        else:
-            for j in self._selection:
-                p = self.get_job_pane(j)
-                if p:
-                    p.setSelected(False)
+        elif not modifiers:
+            self.clear_selection()
 
-        if pane.job not in self._selection:
-            self._selection.append(copy(pane.job))
+        if not self.job_list_contains(pane.job, self._selection):
+            self._selection.append(pane.job)
+
+    def clear_selection(self):
+
+        for j in copy(self._selection):
+            p = self.get_job_pane(j)
+            if p:
+                p.setSelected(False)
 
     def get_job_pane(self, job):
         for p in self._panes:
@@ -157,12 +164,38 @@ class QStatWindow(QtWidgets.QMainWindow):
 
     def remove_selection(self, pane):
 
-        if pane.job in self._selection:
-            idx = self._selection.index(pane.job)
-            self._selection.pop(idx)
-
+        if self.job_list_contains(pane.job, self._selection):
+            idx = self.get_job_index(pane.job, self._selection)
+            if idx != -1:
+                self._selection.pop(idx)
+        
     def job_list_contains(self, job, joblist):
-        return job['jobid'] in [j['jobid'] for j in joblist]
+        job_id = job['jobid']
+        if 'tasks' in job and job['tasks'].isdigit():
+            job_id = '{}.{}'.format(job_id, job['tasks'])
+        job_id_list = []
+        for j in joblist:
+            _j_id = j['jobid']
+            if 'tasks' in j and j['tasks'].isdigit():
+                _j_id = '{}.{}'.format(_j_id, j['tasks'])
+            job_id_list.append(_j_id)
+        return job_id in job_id_list
+
+    def get_job_index(self, job, joblist):
+        idx = None
+        job_id = job['jobid']
+        if 'tasks' in job and job['tasks'].isdigit():
+            job_id = '{}.{}'.format(job_id, job['tasks'])
+
+        for j in joblist:
+            _j_id = j['jobid']
+            if 'tasks' in j and j['tasks'].isdigit():
+                _j_id = '{}.{}'.format(_j_id, j['tasks'])
+
+            if _j_id == job_id:
+                idx = joblist.index(j)
+
+        return idx
 
     def populate_jobs_list(self):
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
@@ -173,7 +206,6 @@ class QStatWindow(QtWidgets.QMainWindow):
         self._panes = []
         # refresh the selection list, if any jobs are removed
         self._selection = [j for j in self._selection if self.job_list_contains(j, self.jobs)]
-        print [j['jobid'] for j in self._selection]
 
         for j in sorted(self.jobs, key=lambda k: k['jobid']):
             self.add_job_pane(j)
@@ -223,10 +255,16 @@ class QStatWindow(QtWidgets.QMainWindow):
 
     def run_filter_dialog(self):
 
+        if self.auto_refresh_active():
+            self._timer.stop()
+
         self.filter_dialog = FiltersDialog(self, self._filters)
         self.filter_dialog.accepted.connect(self.set_filters)
 
-        self.filter_dialog.show()
+        self.filter_dialog.exec_()
+
+        if self.auto_refresh_active():
+            self._timer.start()
 
     def set_filters(self):
 
@@ -239,9 +277,9 @@ class QStatWindow(QtWidgets.QMainWindow):
         ids = []
 
         for j in self._selection:
-            n = j.id_label.text()
-            # if j['tasks'].isdigit():
-            #     n = '{}.{}'.format(n, j['tasks'])
+            n = j['jobid']
+            if j.get('tasks', 'None').isdigit():
+                n = '{}.{}'.format(n, j['tasks'])
             ids.append(n)
 
         confirm = self.__confirm_message(
@@ -257,10 +295,10 @@ class QStatWindow(QtWidgets.QMainWindow):
         ids = []
 
         for j in self._selection:
-            n = j.id_label.text()
-            # if j['tasks'].isdigit():
-            #     n = '{}.{}'.format(n, j['tasks'])
-            ids.append(str(n))
+            n = j['jobid']
+            if j.get('tasks', 'None').isdigit():
+                n = '{}.{}'.format(n, j['tasks'])
+            ids.append(n)
 
         api.qmod.clear_error(ids)
         self.list_jobs()
@@ -270,10 +308,10 @@ class QStatWindow(QtWidgets.QMainWindow):
         ids = []
 
         for j in self._selection:
-            n = j.get('jobid')
-            # if j['tasks'].isdigit():
-            #     n = '{}.{}'.format(n, j['tasks'])
-            ids.append(str(n))
+            n = j['jobid']
+            if j.get('tasks', 'None').isdigit():
+                n = '{}.{}'.format(n, j['tasks'])
+            ids.append(n)
 
         api.qmod.rescedule_jobs(ids)
         self.list_jobs()

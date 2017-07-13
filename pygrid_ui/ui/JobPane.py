@@ -103,7 +103,6 @@ class JobPane(QtWidgets.QFrame):
         super(JobPane, self).mouseDoubleClickEvent(event)
 
         if event.button() is QtCore.Qt.LeftButton:
-            print("emitting double click")
             self.doubleClicked.emit()
 
     def show_job_info(self):

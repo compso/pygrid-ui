@@ -81,19 +81,22 @@ class JobInfoDialog(QtWidgets.QDialog):
                 _t.task = this_task[0]
                 status = this_task[0]['flags']
                 if status in ['r', 't', 'Rr']:
-                    _t.ui.queue_label.setText(this_task[0].get('running_queue', 'u.q'))
+                    _t.ui.queue_label.setText(this_task[0].get('running_queue', 'all.q'))
                 else:
                     _t.ui.queue_label.hide()
             elif str(i) in pending_tids:
                 # set status to the same as the host job
                 _t.task = pending_tasks[0].copy()
                 _t.task['tasks'] = str(i)
-                status = pending_tasks[0].get('flags')
+                status = _t.task.get('flags')
+                _t.ui.queue_label.setText(_t.task.get('requested_queue', 'r.q'))
             elif s['min'] == s['max']:
                 # set status to the same as the host job
                 # _t.task['tasks'] = str(i)
                 if len(pending_tasks):
                     status = pending_tasks[0].get('flags')
+                    print _t.job_info
+                    _t.ui.queue_label.setText(_t.job_info.get('running_queue', 'u.q'))
                 else:
                     status = 'r'
             else:

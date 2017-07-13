@@ -1,6 +1,3 @@
-import sys
-print '\n'.join(sys.path)
-
 from pygrid import QStatCommand
 
 
