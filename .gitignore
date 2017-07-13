@@ -5,3 +5,4 @@ build
 dist
 _tmp
 *.egg-info
+*.nfs*

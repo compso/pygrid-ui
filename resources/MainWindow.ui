@@ -65,6 +65,15 @@
               <height>222</height>
              </rect>
             </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <layout class="QVBoxLayout" name="verticalLayout_4"/>
            </widget>
           </widget>
@@ -83,6 +92,19 @@
             <widget class="QPushButton" name="refresh_btn">
              <property name="text">
               <string>Refresh</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="auto_refresh_cb">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Auto</string>
              </property>
             </widget>
            </item>
@@ -368,10 +390,61 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>auto_refresh_cb</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>set_auto_refresh(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>645</x>
+     <y>542</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>782</x>
+     <y>574</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>priority_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>set_priority()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>773</x>
+     <y>233</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>797</x>
+     <y>240</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reschedule_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>reschedule_jobs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>778</x>
+     <y>158</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>796</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refresh_list(int)</slot>
   <slot>delete_jobs()</slot>
   <slot>clear_error()</slot>
+  <slot>set_auto_refresh(bool)</slot>
+  <slot>set_priority()</slot>
+  <slot>reschedule_jobs()</slot>
  </slots>
 </ui>

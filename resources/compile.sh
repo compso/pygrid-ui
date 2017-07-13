@@ -1,6 +1,6 @@
 
 # The path to output all built .py files to: 
-UI_PYTHON_PATH=../pygrid-ui/ui
+UI_PYTHON_PATH=../pygrid_ui/ui
 ICON_PATH=png
 SVG_PATH=svg
 

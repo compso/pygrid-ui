@@ -17,9 +17,8 @@ class FiltersDialog(QtWidgets.QDialog):
     def _populate_filters(self):
 
         for f, v in self.filters.items():
-            print f, v
             if f == 'user':
-                self.ui.owner_filter_lineEdit.setText(v)
+                self.ui.owner_filter_lineEdit.setText(','.join(v))
 
     def get_filters(self):
 

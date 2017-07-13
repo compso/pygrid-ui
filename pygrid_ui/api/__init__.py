@@ -3,3 +3,4 @@ import qdel
 import qhost
 import qmod
 import qacct
+import qalter
