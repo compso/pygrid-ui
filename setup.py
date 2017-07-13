@@ -12,12 +12,13 @@ from setuptools import setup
 from codecs import open
 from os import path
 import sys
+sys.path.insert(0, path.abspath('../pygrid'))
+
 from pygrid_ui import version
 
 __VERSION__ = version
 
 here = path.abspath(path.dirname(__file__))
-
 # Get the long description from the relevant file
 with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
