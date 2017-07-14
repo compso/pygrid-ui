@@ -89,7 +89,7 @@ class JobInfoDialog(QtWidgets.QDialog):
                 _t.task = pending_tasks[0].copy()
                 _t.task['tasks'] = str(i)
                 status = _t.task.get('flags')
-                _t.ui.queue_label.setText(_t.task.get('requested_queue', 'r.q'))
+                _t.ui.queue_label.setText(','.join(_t.task.get('requested_queue', 'r.q')))
             elif s['min'] == s['max']:
                 # set status to the same as the host job
                 # _t.task['tasks'] = str(i)

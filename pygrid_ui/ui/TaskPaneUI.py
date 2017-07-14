@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'TaskPane.ui'
 #
-# Created: Fri Jul 14 12:02:37 2017
+# Created: Fri Jul 14 12:10:18 2017
 #      by: pyside2-uic  running on PySide2 2.0.0~alpha0
 #
 # WARNING! All changes made in this file will be lost!
@@ -25,10 +25,8 @@ class Ui_TaskPane(object):
         self.id_label.setSizePolicy(sizePolicy)
         self.id_label.setObjectName("id_label")
         self.horizontalLayout.addWidget(self.id_label)
-        spacerItem = QtWidgets.QSpacerItem(233, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
-        self.queue_label = QtWidgets.QLabel(TaskPane)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        self.queue_label = ElidedLabel(TaskPane)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.queue_label.sizePolicy().hasHeightForWidth())
@@ -66,5 +64,8 @@ class Ui_TaskPane(object):
         self.queue_label.setText(QtWidgets.QApplication.translate("TaskPane", "queue_name", None, -1))
         self.log_btn.setText(QtWidgets.QApplication.translate("TaskPane", "View Log", None, -1))
 
+from ElidedLabel import ElidedLabel
+from . import main_rc
+from . import main_rc
 from . import main_rc
 from . import main_rc
