@@ -85,9 +85,9 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="queue_label">
+    <widget class="ElidedLabel" name="queue_label">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+      <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -143,6 +143,8 @@
  </customwidgets>
  <resources>
   <include location="main.qrc"/>
+  <include location="main.qrc"/>
+  <include location="../../../.designer/backup/main.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -73,7 +73,7 @@ class JobPane(QtWidgets.QFrame):
         if self.isrunning():
             self.ui.queue_label.setText(self.job.get('running_queue', 'u.q'))
         else:
-            self.ui.queue_label.setText(self.job.get('requested_queue', 'r.q'))
+            self.ui.queue_label.setText(','.join(self.job.get('requested_queue', 'r.q')))
 
     def isrunning(self):
         return self.job.get('flags') in ['r', 't']

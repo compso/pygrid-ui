@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'JobPane.ui'
 #
-# Created: Wed Jul 12 16:15:50 2017
+# Created: Fri Jul 14 12:02:36 2017
 #      by: pyside2-uic  running on PySide2 2.0.0~alpha0
 #
 # WARNING! All changes made in this file will be lost!
@@ -56,8 +56,8 @@ class Ui_JobPane(object):
         self.name_label.setScaledContents(False)
         self.name_label.setObjectName("name_label")
         self.horizontalLayout.addWidget(self.name_label)
-        self.queue_label = QtWidgets.QLabel(JobPane)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        self.queue_label = ElidedLabel(JobPane)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.queue_label.sizePolicy().hasHeightForWidth())
@@ -99,4 +99,6 @@ class Ui_JobPane(object):
         self.info_btn.setText(QtWidgets.QApplication.translate("JobPane", "Job Info", None, -1))
 
 from ElidedLabel import ElidedLabel
+from . import main_rc
+from . import main_rc
 from . import main_rc
